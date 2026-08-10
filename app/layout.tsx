@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Brain, BookOpen, Shield, Sparkles, Home, Settings, Menu, X } from 'lucide-react'
-import Sidebar from "@/components/Sidebar"
+import Sidebar from "../components/Sidebar"
 
 const navItems = [
   { icon: Home, label: "Home", href: "/", tooltip: "Dashboard" },
