@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=UnifrakturMaguntia&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 5%;
+    --foreground: 0 0% 95%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 0 65% 30%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 25 45% 35%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 45 85% 55%;
+    --accent-foreground: 0 0% 5%;
+    --destructive: 0 84% 40%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 0 65% 30%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-gothic-darker text-foreground font-sans antialiased overflow-x-hidden;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gothic-black;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gothic-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gold-antique;
+  }
+}
+
+@layer components {
+  .gothic-border {
+    @apply border-2 border-gothic-border;
+  }
+
+  .gothic-border-thick {
+    @apply border-4 border-gothic-border;
+  }
+
+  .crimson-text {
+    @apply text-crimson-600;
+  }
+
+  .gold-text {
+    @apply text-gold-antique;
+  }
+
+  .ornament-divider {
+    @apply relative h-8 flex items-center justify-center;
+  }
+
+  .ornament-divider::before,
+  .ornament-divider::after {
+    content: '❧';
+    @apply text-gold-antique text-xl mx-4 opacity-60;
+  }
+
+  .card-gothic {
+    @apply bg-gothic-card border-2 border-gothic-border rounded-2xl shadow-2xl;
+  }
+
+  .btn-gothic {
+    @apply px-6 py-3 bg-gradient-to-r from-crimson-rich to-crimson-blood 
+           text-white font-semibold rounded-lg 
+           hover:from-crimson-deep hover:to-crimson-rich
+           transition-all duration-300 
+           transform hover:scale-105
+           shadow-lg hover:shadow-xl
+           border-2 border-transparent
+           active:scale-95;
+  }
+
+  .btn-gothic-outline {
+    @apply px-6 py-3 bg-transparent 
+           text-gold-antique border-2 border-gold-antique 
+           font-semibold rounded-lg 
+           hover:bg-gold-antique hover:text-gothic-black
+           transition-all duration-300
+           transform hover:scale-105
+           active:scale-95;
+  }
+
+  .input-gothic {
+    @apply w-full px-4 py-3 
+           bg-gothic-dark border-2 border-gothic-border 
+           text-foreground rounded-lg
+           placeholder-muted-foreground
+           focus:border-gold-antique focus:outline-none
+           focus:ring-2 focus:ring-gold-antique/20
+           transition-all duration-300;
+  }
+
+  .panel-gothic {
+    @apply bg-gothic-surface/80 backdrop-blur-sm 
+           border-2 border-gothic-border 
+           rounded-2xl p-6
+           shadow-xl;
+  }
+}
