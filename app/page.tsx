@@ -3,23 +3,7 @@
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
-import dynamic from "next/dynamic"
 import { Brain, BookOpen, Shield, Sparkles, Home as HomeIcon, Tag } from 'lucide-react'
-
-const VisNetwork = dynamic(() => import("react-vis-network-graph"), {
-  ssr: false,
-  loading: () => (
-    <div className="flex items-center justify-center h-96">
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-        className="text-gold-antique text-4xl"
-      >
-        🕸️
-      </motion.div>
-    </div>
-  ),
-})
 
 export default function Home() {
   const [nodes, setNodes] = useState<any[]>([])
@@ -132,13 +116,16 @@ export default function Home() {
           )}
 
           {nodes.length > 0 && (
-            <VisNetwork
-              options={options}
-              onInit={(network) => {
-                network.fit({ animation: { duration: 1500, easingFunction: "easeInOutQuad" } })
-              }}
-              style={{ height: "100%" }}
-            />
+            <div className="relative grid min-h-[560px] grid-cols-2 gap-4 overflow-hidden rounded-xl bg-gothic-black/30 p-6 sm:grid-cols-3 lg:grid-cols-4">
+              {nodes.slice(0, 24).map((node, index) => (
+                <motion.div key={node.id} initial={{ opacity: 0, scale: .8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: Math.min(index * .03, .6) }} className={`rounded-xl border-2 p-4 shadow-lg ${node.orphan ? "border-crimson-blood bg-crimson-rich/30" : "border-gold-dim bg-gothic-surface/90"}`}>
+                  <div className="mb-2 h-3 w-3 rounded-full bg-gold-antique shadow-[0_0_12px_#d4af37]" />
+                  <div className="line-clamp-3 font-serif text-sm text-gold-antique">{node.label}</div>
+                  <div className="mt-2 text-[10px] uppercase tracking-wider text-silver-600">{node.folder || "root"}</div>
+                </motion.div>
+              ))}
+              <div className="absolute bottom-4 right-4 rounded-full border border-gold-dim bg-gothic-black/80 px-3 py-1 text-xs text-silver-500">{edges.length} connections</div>
+            </div>
           )}
         </div>
       </motion.div>
