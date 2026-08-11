@@ -1,8 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname } from 'next/navigation'
 import { Brain, BookOpen, Shield, Sparkles, Home, Settings, Menu, X } from 'lucide-react'
 import Sidebar from "../components/Sidebar"
 
@@ -25,7 +24,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
       <MobileNav items={navItems} currentPath={pathname} />
 
       {/* Main Content Area */}
-      <main className="lg:ml-20 xl:ml-24">
+      <main className="lg:ml-20 xl:ml-24 pt-16 lg:pt-0 pb-16 lg:pb-0">
         {children}
       </main>
     </div>
@@ -34,14 +33,11 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
 
 function MobileNav({ items, currentPath }: { items: typeof navItems, currentPath: string }) {
   return (
-    <>
+    <div className="lg:hidden">
       {/* Mobile Header */}
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.6 }}
+      <header
         className="fixed top-0 left-0 right-0 h-16 bg-gothic-black/95 backdrop-blur-xl 
-                   border-b-2 border-gothic-border z-40 lg:hidden flex items-center justify-between px-4"
+                   border-b-2 border-gothic-border z-40 flex items-center justify-between px-4"
       >
         <div className="flex items-center gap-3">
           <motion.div
@@ -58,7 +54,7 @@ function MobileNav({ items, currentPath }: { items: typeof navItems, currentPath
         <button className="p-2 text-silver-500 hover:text-gold-antique">
           <Settings size={24} />
         </button>
-      </motion.header>
+      </header>
 
       {/* Bottom Navigation Bar */}
       <nav className="fixed bottom-0 left-0 right-0 bg-gothic-black/95 backdrop-blur-xl 
@@ -91,6 +87,6 @@ function MobileNav({ items, currentPath }: { items: typeof navItems, currentPath
           })}
         </div>
       </nav>
-    </>
+    </div>
   )
 }
