@@ -1,0 +1,15 @@
+services:
+  second-brain-gothic:
+    build: .
+    expose:
+      - "3000"
+    environment:
+      NODE_ENV: production
+      VAULT_DIR: /vault
+    volumes:
+      - /home/azzaroth/vault:/vault:ro
+    networks:
+      - coolify
+networks:
+  coolify:
+    external: true
