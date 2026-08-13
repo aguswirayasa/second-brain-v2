@@ -1,5 +1,32 @@
 import { NextResponse } from 'next/server'
 
+// Resolve the vault directory: honor VAULT_DIR, but fall back through
+// common Coolify mount points and pick the one that actually contains notes.
+function resolveVaultDir(): string {
+  const candidates = [
+    process.env.VAULT_DIR,
+    '/vault',
+    '/home/azzaroth/vault',
+    '/app/vault',
+  ].filter(Boolean) as string[]
+
+  const fs = require('fs')
+  for (const dir of candidates) {
+    try {
+      if (fs.existsSync(dir) && fs.readdirSync(dir).some((f: string) => f.endsWith('.md') || fs.statSync(require('path').join(dir, f)).isDirectory())) {
+        return dir
+      }
+    } catch {
+      // ignore unreadable candidate
+    }
+  }
+  // Fall back to the first existing candidate, else the default.
+  for (const dir of candidates) {
+    try { if (fs.existsSync(dir)) return dir } catch { /* ignore */ }
+  }
+  return process.env.VAULT_DIR || '/home/azzaroth/vault'
+}
+
 // Helper function to scan markdown files
 function scanVault(vaultDir: string) {
   const fs = require('fs')
@@ -73,7 +100,7 @@ function resolveLink(target: string, notes: any[]) {
 
 export async function GET(request: Request) {
   try {
-    const vaultDir = process.env.VAULT_DIR || '/home/azzaroth/vault'
+    const vaultDir = resolveVaultDir()
     const notes = scanVault(vaultDir)
     
     // Build nodes with gothic styling

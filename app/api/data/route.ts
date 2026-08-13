@@ -1,11 +1,38 @@
 import { NextResponse } from 'next/server'
 
+// Resolve the vault directory: honor VAULT_DIR, but fall back through
+// common Coolify mount points and pick the one that actually contains notes.
+function resolveVaultDir(): string {
+  const candidates = [
+    process.env.VAULT_DIR,
+    '/vault',
+    '/home/azzaroth/vault',
+    '/app/vault',
+  ].filter(Boolean) as string[]
+
+  const fs = require('fs')
+  const path = require('path')
+  for (const dir of candidates) {
+    try {
+      if (fs.existsSync(dir) && fs.readdirSync(dir).some((f: string) => f.endsWith('.md') || fs.statSync(path.join(dir, f)).isDirectory())) {
+        return dir
+      }
+    } catch {
+      // ignore unreadable candidate
+    }
+  }
+  for (const dir of candidates) {
+    try { if (fs.existsSync(dir)) return dir } catch { /* ignore */ }
+  }
+  return process.env.VAULT_DIR || '/home/azzaroth/vault'
+}
+
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url)
     const endpoint = url.searchParams.get('endpoint')
     
-    const vaultDir = process.env.VAULT_DIR || '/home/azzaroth/vault'
+    const vaultDir = resolveVaultDir()
     
     if (endpoint === 'notes') {
       return handleNotes(vaultDir)
