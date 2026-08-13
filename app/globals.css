@@ -28,11 +28,11 @@
   }
 
   * {
-    @apply border-border;
+    @apply border-gothic-border;
   }
 
   body {
-    @apply bg-gothic-darker text-foreground font-sans antialiased overflow-x-hidden;
+    @apply bg-gothic-darker text-silver-400 font-sans antialiased overflow-x-hidden;
   }
 
   ::-webkit-scrollbar {
